@@ -3,6 +3,7 @@
   "name": "Sample Plugin",
   "version": "1.0.0",
   "minAppVersion": "5.4.0",
+  "manifestVersion": 2,
   "description": "A sample plugin demonstrating form creation, data persistence, and cross-view communication in Beekeeper Studio",
   "author": {
     "name": "Beekeeper Studio",
