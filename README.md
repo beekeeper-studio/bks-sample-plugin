@@ -15,7 +15,7 @@ A sample plugin demonstrating form creation, data persistence, and cross-view co
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/beekeeper-studio/bks-plugin-starter
+   git clone https://github.com/beekeeper-studio/bks-sample-plugin
    cd bks-sample-plugin
    ```
 
@@ -28,18 +28,12 @@ A sample plugin demonstrating form creation, data persistence, and cross-view co
 
    **Linux:**
    ```bash
-   # Create the plugins directory if it doesn't exist
-   mkdir -p ~/.config/beekeeper-studio/plugins
-
    # Create a symbolic link
    ln -s $(pwd) ~/.config/beekeeper-studio/plugins/bks-sample-plugin
    ```
 
    **macOS:**
    ```bash
-   # Create the plugins directory if it doesn't exist
-   mkdir -p "~/Library/Application Support/beekeeper-studio/plugins"
-
    # Create a symbolic link
    ln -s $(pwd) "~/Library/Application Support/beekeeper-studio/plugins/bks-sample-plugin"
    ```
