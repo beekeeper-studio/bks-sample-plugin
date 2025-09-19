@@ -134,15 +134,11 @@ To make your plugin discoverable in Beekeeper Studio's plugin manager:
    - Create a PR to the main repository
    - Once approved, your plugin will be available in the plugin manager
 
-## API Reference
-
-For complete API documentation, visit the [Beekeeper Studio Plugin Development Guide](https://docs.beekeeperstudio.io/plugin_development/api-reference/).
-
 ## Support
 
+- **Documentation**: Visit the [docs]([https://docs.beekeeperstudio.io)](https://docs.beekeeperstudio.io/plugin_development/)
 - **Community Slack**: Join the [Beekeeper Studio Community](https://www.beekeeperstudio.io/slack)
 - **Issues**: Report bugs or request features in the [main repository](https://github.com/beekeeper-studio/beekeeper-studio/issues)
-- **Documentation**: Visit [docs.beekeeperstudio.io](https://docs.beekeeperstudio.io) for comprehensive guides
 
 ## License
 
