@@ -1,0 +1,42 @@
+{
+  "id": "bks-sample-plugin",
+  "name": "Sample Plugin",
+  "version": "1.0.0",
+  "minAppVersion": "5.4.0",
+  "description": "A sample plugin demonstrating form creation, data persistence, and cross-view communication in Beekeeper Studio",
+  "author": {
+    "name": "Beekeeper Studio",
+    "url": "https://beekeeperstudio.io"
+  },
+  "icon": "extension",
+  "capabilities": {
+    "views": [
+      {
+        "id": "form",
+        "name": "Form",
+        "type": "base-tab",
+        "entry": "dist/form.html"
+      },
+      {
+        "id": "summary",
+        "name": "Summary",
+        "type": "base-tab",
+        "entry": "dist/summary.html"
+      }
+    ],
+    "menu": [
+      {
+        "command": "new-form",
+        "name": "New Form",
+        "view": "form",
+        "placement": "menubar.tools"
+      },
+      {
+        "command": "view-summary",
+        "name": "View Summary",
+        "view": "summary",
+        "placement": "menubar.tools"
+      }
+    ]
+  }
+}

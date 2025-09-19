@@ -1,0 +1,85 @@
+name: Release Plugin
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on version tags like v1.0.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract Project Info
+        id: project
+        run: |
+          # Extract information from manifest.json
+          NAME=$(jq -r '.name' manifest.json)
+          VERSION=$(jq -r '.version' manifest.json)
+          ID=$(jq -r '.id' manifest.json)
+          DESCRIPTION=$(jq -r '.description' manifest.json)
+
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "id=$ID" >> $GITHUB_OUTPUT
+          echo "description=$DESCRIPTION" >> $GITHUB_OUTPUT
+
+      - name: Verify Version Match
+        run: |
+          # Extract version from tag (remove 'v' prefix)
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          MANIFEST_VERSION="${{ steps.project.outputs.version }}"
+
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "❌ Version mismatch: tag=$TAG_VERSION, manifest=$MANIFEST_VERSION"
+            exit 1
+          fi
+
+          echo "✅ Version match confirmed: $TAG_VERSION"
+
+      - name: Check if Release Exists
+        id: release_check
+        run: |
+          # Check if a release with this tag already exists
+          if gh release view "${GITHUB_REF#refs/tags/}" &>/dev/null; then
+            echo "❌ Release ${GITHUB_REF#refs/tags/} already exists"
+            exit 1
+          fi
+          echo "✅ Release ${GITHUB_REF#refs/tags/} does not exist yet"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Plugin
+        run: yarn build
+
+      - name: Create Release Archive
+        run: |
+          # Create a zip file with the built plugin
+          zip -r "${{ steps.project.outputs.id }}-${{ steps.project.outputs.version }}.zip" dist/ manifest.json
+
+      - name: Create GitHub Release
+        run: |
+          # Create a draft release
+          gh release create "${GITHUB_REF#refs/tags/}" \
+            --draft \
+            --title "${{ steps.project.outputs.name }} ${{ steps.project.outputs.version }}" \
+            --notes "${{ steps.project.outputs.description }}" \
+            "${{ steps.project.outputs.id }}-${{ steps.project.outputs.version }}.zip" \
+            manifest.json
+
+          echo "🎉 Draft release created: ${GITHUB_REF#refs/tags/}"
+          echo "👉 Please review and publish at: ${{ github.server_url }}/${{ github.repository }}/releases"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

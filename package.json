@@ -1,0 +1,19 @@
+{
+  "name": "bks-sample-plugin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@beekeeperstudio/plugin": "^1.4.0-beta.4",
+    "@beekeeperstudio/vite-plugin": "^1.0.3"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3",
+    "vite": "^7.1.2"
+  }
+}
