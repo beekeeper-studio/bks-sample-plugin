@@ -5,24 +5,16 @@ import {
   runQuery,
   getData,
   setData,
-  notify,
   getAppInfo,
+  log,
 } from "@beekeeperstudio/plugin";
 
 window.addEventListener("error", (e) => {
-  notify("pluginError", {
-    message: e.message,
-    name: e.name,
-    stack: e.stack,
-  });
+  log.error(e);
 });
 
 window.addEventListener("unhandledrejection", (e) => {
-  notify("pluginError", {
-    message: e.reason?.message,
-    name: e.reason?.name,
-    stack: e.reason?.stack,
-  });
+  log.error(e);
 });
 
 export type BroadcastData = {

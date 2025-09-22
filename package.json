@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@beekeeperstudio/plugin": "^1.4.0-beta.4",
+    "@beekeeperstudio/plugin": "^1.4.0-beta.5",
     "@beekeeperstudio/vite-plugin": "^1.0.3"
   },
   "devDependencies": {

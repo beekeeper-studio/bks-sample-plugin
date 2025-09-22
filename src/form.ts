@@ -1,4 +1,4 @@
-import { notify, runQuery } from "@beekeeperstudio/plugin";
+import { broadcast, runQuery } from "@beekeeperstudio/plugin";
 import { BasePlugin, type BroadcastData } from "./BasePlugin";
 
 interface FormData {
@@ -26,9 +26,7 @@ class FormPlugin extends BasePlugin {
     await runQuery(insertSQL);
 
     // Notify other views of form submission.
-    notify<BroadcastData>("broadcast", {
-      message: { type: "formSubmitted" },
-    });
+    broadcast.post<BroadcastData>({ type: "formSubmitted" });
   }
 
   protected renderMain(): void {

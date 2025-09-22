@@ -1,4 +1,4 @@
-import { addNotificationListener, runQuery } from "@beekeeperstudio/plugin";
+import { broadcast, runQuery } from "@beekeeperstudio/plugin";
 import { BasePlugin, type BroadcastData } from "./BasePlugin";
 
 class SummaryPlugin extends BasePlugin {
@@ -10,7 +10,7 @@ class SummaryPlugin extends BasePlugin {
     /**
      * Listen for form submission notifications from other views of the plugin.
      */
-    addNotificationListener<BroadcastData>("broadcast", ({ message }) => {
+    broadcast.on<BroadcastData>((message) => {
       if (message.type === "formSubmitted") {
         this.renderMain();
       }
