@@ -28,25 +28,21 @@ A sample plugin demonstrating form creation, data persistence, and cross-view co
 
    **Linux:**
    ```bash
-   # Create a symbolic link
    ln -s $(pwd) ~/.config/beekeeper-studio/plugins/bks-sample-plugin
    ```
 
    **macOS:**
    ```bash
-   # Create a symbolic link
    ln -s $(pwd) "~/Library/Application Support/beekeeper-studio/plugins/bks-sample-plugin"
    ```
 
    **Windows:**
    ```cmd
-   # Create a symbolic link (run as Administrator)
    mklink /D "%APPDATA%\beekeeper-studio\plugins\bks-sample-plugin" "%CD%"
    ```
 
    **Windows (Portable version):**
    ```cmd
-   # For portable installations
    mklink /D "/path/to/beekeeper-studio/beekeeper-studio-data/plugins/bks-sample-plugin" "%CD%"
    ```
 
