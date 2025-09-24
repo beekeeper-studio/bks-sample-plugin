@@ -136,7 +136,7 @@ To make your plugin discoverable in Beekeeper Studio's plugin manager:
 
 ## Support
 
-- **Documentation**: Visit the [docs]([https://docs.beekeeperstudio.io)](https://docs.beekeeperstudio.io/plugin_development/)
+- **Documentation**: Visit the [Plugin Development Guide](https://docs.beekeeperstudio.io/plugin_development/)
 - **Community Slack**: Join the [Beekeeper Studio Community](https://www.beekeeperstudio.io/slack)
 - **Issues**: Report bugs or request features in the [main repository](https://github.com/beekeeper-studio/beekeeper-studio/issues)
 
