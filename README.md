@@ -6,7 +6,7 @@ A sample plugin demonstrating form creation, data persistence, and cross-view co
 
 ### Prerequisites
 
-- [Beekeeper Studio](https://beekeeperstudio.io) installed
+- [Beekeeper Studio](https://beekeeperstudio.io) 5.4 or later
 - Node.js 20.19 or later
 - Yarn
 - Git
