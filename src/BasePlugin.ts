@@ -1,12 +1,13 @@
 import "./style.css";
 import {
   addNotificationListener,
-  getTables,
   runQuery,
   getData,
   setData,
   getAppInfo,
   log,
+  getConnectionInfo,
+  broadcast,
 } from "@beekeeperstudio/plugin";
 
 window.addEventListener("error", (e) => {
@@ -18,7 +19,7 @@ window.addEventListener("unhandledrejection", (e) => {
 });
 
 export type BroadcastData = {
-  type: "formSubmitted";
+  type: "formSubmitted" | "tableCreated" | "dataReset";
 }
 
 export abstract class BasePlugin {
@@ -27,12 +28,24 @@ export abstract class BasePlugin {
   protected currentView: "setup" | "main" = "setup";
   abstract title: string;
 
+  protected isInMemorySqlite = false;
+
   constructor() {
     this.appElement = document.querySelector<HTMLDivElement>("#app")!;
   }
 
   async initialize() {
+    broadcast.on<BroadcastData>((message) => {
+      if (message.type === "dataReset" || message.type === "tableCreated") {
+        this.reloadPage();
+      }
+    });
+
     const appInfo = await getAppInfo();
+    const conn = await getConnectionInfo();
+    if (conn.databaseType === "sqlite" && (conn.databaseName === "" || conn.databaseName == null)) {
+      this.isInMemorySqlite = true;
+    }
     this.applyTheme(appInfo.theme.cssString);
     this.initializeWatchers();
     await this.checkSavedTableName();
@@ -81,6 +94,11 @@ export abstract class BasePlugin {
     await setData("tableName", name);
   }
 
+  private async resetData() {
+    await setData("tableName", "");
+    await runQuery(`DROP TABLE IF EXISTS ${this.tableName}`);
+  }
+
   private async checkSavedTableName() {
     try {
       /**
@@ -89,22 +107,10 @@ export abstract class BasePlugin {
        */
       const savedTableName = await getData<string>("tableName");
       if (savedTableName) {
-        /**
-         * Get list of all tables in the currently connected database.
-         * Useful for validating table existence and discovering database schema.
-         */
-        const tables = await getTables();
-        const tableExists = tables.some(
-          (table) => table.name === savedTableName,
-        );
-
-        if (tableExists) {
-          this.tableName = savedTableName;
-          this.currentView = "main";
-        } else {
-          await setData("tableName", "");
-          this.currentView = "setup";
-        }
+        this.tableName = savedTableName;
+        this.currentView = "main";
+      } else {
+        this.currentView = "setup";
       }
     } catch (error) {
       console.error("Error checking saved table name:", error);
@@ -119,6 +125,7 @@ export abstract class BasePlugin {
         break;
       case "main":
         this.renderMain();
+        this.renderResetBtn();
         break;
     }
   }
@@ -126,12 +133,23 @@ export abstract class BasePlugin {
   protected abstract renderMain(): void;
 
   private renderSetup() {
+    const inMemorySqliteWarning = !this.isInMemorySqlite
+      ? `<div class="sqlite-warning-card">
+<strong>WARNING</strong>
+<p>This plugin won't modify your existing data, but
+for safer testing, consider using an in-memory SQLite database:</p>
+<ol>
+<li>Create a new connection</li>
+<li>Select SQLite</li>
+<li>Skip all configuration and then click connect</li>
+<ol>
+</div>`
+      : "";
     this.appElement.innerHTML = `
       <div class="container">
         <h1>${this.title}</h1>
-        <p>This plugin will create a new table to store form submissions.</p>
-        <p><strong>⚠️ Consider using an in-memory SQLite database for testing.</strong></p>
-
+        <p class="main-description">This plugin will create a new table to store form submissions.</p>
+        ${inMemorySqliteWarning}
         <div class="setup-form">
           <div class="form-group">
             <label for="table-name">Table Name:</label>
@@ -179,6 +197,7 @@ export abstract class BasePlugin {
         this.tableName = tableName;
         this.currentView = "main";
         this.render();
+        broadcast.post<BroadcastData>({ type: "tableCreated" });
       } catch (error) {
         this.showError(errorBox, `Error creating table: ${error}`);
         createBtn.disabled = false;
@@ -215,6 +234,37 @@ export abstract class BasePlugin {
     }, 3000);
   }
 
+  private renderResetBtn() {
+    const btn = document.createElement("button");
+    btn.classList.add("secondary-btn", "danger");
+    btn.innerText = "Reset Data";
+    btn.onclick = this.showResetDataConfirmation.bind(this);
+    document.querySelector(".container")?.appendChild(btn);
+  }
+
+  protected showResetDataConfirmation() {
+    const confirmation = document.createElement("div");
+
+    confirmation.classList.add("reset-confirmation")
+    confirmation.innerHTML = `
+      <p>This will delete \`${this.tableName}\` table. Are you sure?</p>
+      <button class="secondary-btn cancel-btn">Cancel</button>
+      <button class="secondary-btn danger reset-btn">Reset</button>
+    `;
+
+    const close = () => confirmation.remove();
+    const reset = () => {
+      this.resetData();
+      broadcast.post<BroadcastData>({ type: "dataReset" });
+      this.reloadPage();
+    }
+
+    confirmation.querySelector(".cancel-btn")?.addEventListener("click", close);
+    confirmation.querySelector(".reset-btn")?.addEventListener("click", reset);
+
+    document.querySelector(".container")?.appendChild(confirmation);
+  }
+
   private validateTableName(name: string): boolean {
     return (
       /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name) &&
@@ -227,5 +277,9 @@ export abstract class BasePlugin {
   /** Escape a string for use in an SQL query */
   protected escapeStr(str: string): string {
     return str.replace(/'/g, "''");
+  }
+
+  private reloadPage() {
+    location.reload();
   }
 }

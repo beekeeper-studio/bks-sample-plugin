@@ -49,6 +49,29 @@ body {
   border: 1px solid var(--border-color);
 }
 
+.main-description {
+  text-align: center;
+}
+
+.sqlite-warning-card {
+  background-color: color-mix(in srgb, var(--brand-warning) 35%, transparent);
+  border: 1px solid var(--brand-warning);
+  border-radius: 4px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 32rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.sqlite-warning-card >* {
+  margin: 0;
+  color: var(--text-dark);
+}
+
 h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -130,7 +153,7 @@ p {
 
 .primary-btn {
   background-color: var(--theme-primary);
-  color: var(--theme-bg);
+  color: black;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
@@ -142,7 +165,6 @@ p {
 
 .primary-btn:hover:not(:disabled) {
   background-color: #e8c435;
-  transform: translateY(-1px);
 }
 
 .primary-btn:disabled {
@@ -166,6 +188,17 @@ p {
 .secondary-btn:hover {
   background-color: var(--theme-secondary);
   color: var(--theme-bg);
+}
+
+.secondary-btn.danger {
+  background-color: transparent;
+  color: var(--brand-danger);
+  border-color: var(--brand-danger);
+}
+
+.secondary-btn.danger:hover {
+  color: color-mix(in srgb, var(--brand-danger) 70%, transparent);
+  border-color: color-mix(in srgb, var(--brand-danger) 70%, transparent);
 }
 
 .error-box {
