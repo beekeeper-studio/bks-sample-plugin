@@ -1,30 +1,42 @@
 # Beekeeper Studio Sample Plugin
 
-A sample plugin demonstrating form creation, data persistence, and cross-view communication in Beekeeper Studio.
+A basic example of Beekeeper Studio plugin demonstrating form creation, data persistence, and cross-view communication.
 
-## Development Setup
+## Usage
+
+<img width="420" height="212" alt="image" src="https://github.com/user-attachments/assets/0d5889ae-67f5-4683-878e-e97d8dab9258" />
+
+- Submit user ratings from `Tools > New Form`
+- View the data from `Tools > View Summary`
+
+## Development
+
+> [!NOTE]
+> This example does not use a UI framework for simplicity. But if you do, it supports hot reload! Thanks to Vite's [Hot Module Replacement](https://vite.dev/guide/features.html#hot-module-replacement). :tada:
+
+> [!NOTE]
+> Check the browser dev tools for debugging (`Help > Show Developer Tools`)
 
 ### Prerequisites
 
-- [Beekeeper Studio](https://beekeeperstudio.io) 5.4 or later
-- Node.js 20.19 or later
-- Yarn
-- Git
+- Beekeeper Studio >= 5.4
+- Node.js >= 20.19
 
-### Local Development
+### Setup
 
-1. **Clone the repository**
+1. Clone the repository
    ```bash
    git clone https://github.com/beekeeper-studio/bks-sample-plugin
    cd bks-sample-plugin
    ```
 
-2. **Install dependencies**
+2. Install dependencies
    ```bash
    yarn install
    ```
 
-3. **Create a symbolic link to the plugin directory**
+3. Create a symbolic link to the plugin directory
+   > The symlink name must match the `id` field in `manifest.json`. For example, `bks-sample-plugin`.
 
    **Linux:**
    ```bash
@@ -46,8 +58,6 @@ A sample plugin demonstrating form creation, data persistence, and cross-view co
    mklink /D "/path/to/beekeeper-studio/beekeeper-studio-data/plugins/bks-sample-plugin" "%CD%"
    ```
 
-   **Note**: The symlink name (`bks-sample-plugin`) must match the `id` field in `manifest.json`.
-
 4. **Start development server**
    ```bash
    yarn dev
@@ -58,64 +68,52 @@ A sample plugin demonstrating form creation, data persistence, and cross-view co
    yarn build
    ```
 
-### Development Workflow
+## Releasing & Publishing your plugin
 
-- The plugin will hot-reload when you make changes to the source files
-- Check the browser dev tools for any errors or debugging output
+### 1.a. Automated Release
 
-## Publishing
+This repository contains Github Actions workflow that automates the release process by pushing a tag prefixed with `v`:
 
-### Automated Release
-
-1. **Create and push a version tag**
+1. Push a version tag
    ```bash
-   # Ensure your version in manifest.json matches the tag (e.g., "1.0.0")
    git tag v1.0.0
    git push origin v1.0.0
    ```
 
-2. **Mark as latest release**
-   - Once the GitHub Action completes, go to your repository's Releases page
-   - Find the newly created release and mark it as "Latest release"
+2. Once the GitHub Action completes, go to your repository's Releases page
+3. Find the release
+4. Mark it as "Latest release"
 
-### Manual Release
+### 1.b. Manual Release
 
 If you don't have the GitHub Actions workflow set up:
 
-1. **Build the plugin**
+1. Build the plugin
    ```bash
    yarn build
    ```
 
-2. **Create the plugin archive**
+2. Create the plugin archive
+   > The name format is `<pluginId>-<version>.zip`
+
    ```bash
-   # Create a zip file with the correct naming format
    zip -r bks-sample-plugin-1.0.0.zip dist/
    ```
 
-3. **Create a release manually on GitHub**
-   - Go to your repository on GitHub
-   - Click "Releases" → "Create a new release"
-   - Tag version: `v1.0.0` (matching your manifest.json version)
+4. Go to your repository on GitHub
+5. Click "Releases" → "Create a new release"
+6. Tag the release with the version, for example, `v1.0.0` (prefixed with `v`)
+7. For assets, attach the current `manifest.json` and the zip file
+8. Fill the title and description
+9. Click "Publish release"
 
-4. **Attach the required assets**
-   - Upload the `manifest.json` file
-   - Upload the `bks-sample-plugin-1.0.0.zip` file you created in step 2
-
-5. **Publish the release**
-   - Add a title and description for your release
-   - Click "Publish release"
-
-### Publishing to Plugin Registry
+### 2. Publishing to Plugin Registry 
 
 To make your plugin discoverable in Beekeeper Studio's plugin manager:
 
-1. **Fork the plugins registry**
-   ```bash
-   git clone https://github.com/beekeeper-studio/beekeeper-studio-plugins.git
-   ```
+1. Fork the plugins registry at [beekeeper-studio/beekeeper-studio-plugins](https://github.com/beekeeper-studio/beekeeper-studio-plugins)
 
-2. **Add your plugin to plugins.json**
+2. Add your plugin to plugins.json
    ```json
    {
      "id": "bks-sample-plugin",
@@ -126,9 +124,8 @@ To make your plugin discoverable in Beekeeper Studio's plugin manager:
    }
    ```
 
-3. **Submit a pull request**
-   - Create a PR to the main repository
-   - Once approved, your plugin will be available in the plugin manager
+3. Submit a pull request to [beekeeper-studio/beekeeper-studio-plugins](https://github.com/beekeeper-studio/beekeeper-studio-plugins)
+4. Once approved & merged by our team, your plugin will be available in Beekeeper Studio for public
 
 ## Support
 
