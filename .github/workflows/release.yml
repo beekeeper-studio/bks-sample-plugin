@@ -69,17 +69,9 @@ jobs:
           # Create a zip file with the built plugin
           zip -r "${{ steps.project.outputs.id }}-${{ steps.project.outputs.version }}.zip" dist/ manifest.json
 
-      - name: Create GitHub Release
-        run: |
-          # Create a draft release
-          gh release create "${GITHUB_REF#refs/tags/}" \
-            --draft \
-            --title "${{ steps.project.outputs.name }} ${{ steps.project.outputs.version }}" \
-            --notes "${{ steps.project.outputs.description }}" \
-            "${{ steps.project.outputs.id }}-${{ steps.project.outputs.version }}.zip" \
-            manifest.json
-
-          echo "🎉 Draft release created: ${GITHUB_REF#refs/tags/}"
-          echo "👉 Please review and publish at: ${{ github.server_url }}/${{ github.repository }}/releases"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create draft release
+        id: create_release
+        uses: softprops/action-gh-release@v3
+        with:
+          draft: true
+          generate_release_notes: true
