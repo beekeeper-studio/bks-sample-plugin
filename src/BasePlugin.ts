@@ -2,8 +2,7 @@ import "./style.css";
 import {
   addNotificationListener,
   runQuery,
-  getData,
-  setData,
+  appStorage,
   getAppInfo,
   log,
   getConnectionInfo,
@@ -11,11 +10,11 @@ import {
 } from "@beekeeperstudio/plugin";
 
 window.addEventListener("error", (e) => {
-  log.error(e);
+  log.error(e.error ?? e.message);
 });
 
 window.addEventListener("unhandledrejection", (e) => {
-  log.error(e);
+  log.error(e.reason);
 });
 
 export type BroadcastData = {
@@ -91,11 +90,11 @@ export abstract class BasePlugin {
      * Alternative: Use setViewState/getViewState for view-specific data that
      * doesn't need to be shared between different plugin views.
      */
-    await setData("tableName", name);
+    await appStorage.setItem("tableName", name);
   }
 
   private async resetData() {
-    await setData("tableName", "");
+    await appStorage.setItem("tableName", "");
     await runQuery(`DROP TABLE IF EXISTS ${this.tableName}`);
   }
 
@@ -105,7 +104,7 @@ export abstract class BasePlugin {
        * Retrieve previously stored table name from Beekeeper Studio's plugin data store.
        * Returns the value associated with the given key, or undefined if not found.
        */
-      const savedTableName = await getData<string>("tableName");
+      const savedTableName = await appStorage.getItem<string>("tableName");
       if (savedTableName) {
         this.tableName = savedTableName;
         this.currentView = "main";

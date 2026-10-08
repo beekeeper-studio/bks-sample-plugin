@@ -3,14 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@beekeeperstudio/plugin": "^1.4.0-beta.5",
-    "@beekeeperstudio/vite-plugin": "^1.0.3"
+    "@beekeeperstudio/plugin": "1.7.2",
+    "@beekeeperstudio/vite-plugin": "^1.1.0"
   },
   "devDependencies": {
     "typescript": "~5.8.3",

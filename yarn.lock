@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@beekeeperstudio/plugin@^1.4.0-beta.5":
-  version "1.4.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@beekeeperstudio/plugin/-/plugin-1.4.0-beta.5.tgz#9a3a3b2f73c854d95c9350664b8159df7de13bd8"
-  integrity sha512-4AozbD0ykAiLH1p5BEl9akgRpvF/hTWzJoj1QwHiGeVEQm0vVl17cEyknPdjNN0tN1gBHjWSEpoT37bxg2Mqmg==
+"@beekeeperstudio/plugin@1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@beekeeperstudio/plugin/-/plugin-1.7.2.tgz#94334425c31c71c7e6d4ec98ec00854202a5f3ba"
+  integrity sha512-dc/n7LCEKJpqj0NeMPUajL7tIuwoVUFAXZxpJGpctQaQ60weglCmpNkSkTYbYajWEVBVVFTvQNtWGFN/mt6F0A==
 
-"@beekeeperstudio/vite-plugin@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@beekeeperstudio/vite-plugin/-/vite-plugin-1.0.3.tgz#c04d7b3b8aef95ecab46a18b36ce7198955fc187"
-  integrity sha512-McDNe6mmpTWg3wjpYz5gEBMow488k9taMO+Zd09Eig1kqhWAMiOyau3T1tEX3RkV5waYKL4moIoWpn0ivQeAgA==
+"@beekeeperstudio/vite-plugin@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@beekeeperstudio/vite-plugin/-/vite-plugin-1.1.0.tgz#fee9fe6949885ab357e42b824e431780ac21e3a4"
+  integrity sha512-01VNiNQ0w/HjxtRRlxCbDEbGz1ePV3BZOp+H7OeTXN2Lu5a+KFybDViPKwmh0bkajnHEL1k5Zhg/wc7xTiejbQ==
 
 "@esbuild/aix-ppc64@0.25.9":
   version "0.25.9"

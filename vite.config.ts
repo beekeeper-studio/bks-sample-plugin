@@ -2,6 +2,14 @@ import { defineConfig } from "vite";
 import bks from "@beekeeperstudio/vite-plugin";
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        form: "form.html",
+        summary: "summary.html",
+      },
+    },
+  },
   plugins: [
     // Beekeeper Studio plugin handles bundling HTML files
     bks({
